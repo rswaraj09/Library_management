@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .book-list {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Student Dashboard</h1>
+            <button onclick="window.location.href='/logout'">Logout</button>
+        </div>
+        
+        <!-- Book List -->
+        <div class="book-list">
+            <h2>Available Books</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Quantity Available</th>
+                    </tr>
+                </thead>
+                <tbody id="bookTableBody">
+                    <!-- Books will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Load books when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBooks();
+        });
+
+        // Function to load all books
+        function loadBooks() {
+            fetch('/api/books')
+                .then(response => response.json())
+                .then(books => {
+                    const tableBody = document.getElementById('bookTableBody');
+                    tableBody.innerHTML = books
+                        .filter(book => book.quantity > 0) // Only show available books
+                        .map(book => `
+                            <tr>
+                                <td>${book.title}</td>
+                                <td>${book.author}</td>
+                                <td>${book.quantity}</td>
+                            </tr>
+                        `).join('');
+                })
+                .catch(error => {
+                    console.error('Error loading books:', error);
+                });
+        }
+    </script>
+</body>
+</html>

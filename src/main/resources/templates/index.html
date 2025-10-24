@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Library Management System</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-book"></i>
+                <span>College Library</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#search" class="nav-link">Search</a>
+                <a href="#books" class="nav-link">Books</a>
+                <a href="#about" class="nav-link">About</a>
+                <div class="nav-auth" th:if="${!isAuthenticated}">
+                    <a class="btn btn-outline" href="/login">Login</a>
+                    <a class="btn btn-primary" href="/register">Register</a>
+                </div>
+                <div class="nav-user" th:if="${isAuthenticated}">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="username" th:text="${username}">Username</span>
+                    </div>
+                    <a class="btn btn-outline btn-sm" href="/logout">Logout</a>
+                </div>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to College Library Management System</h1>
+                <p class="hero-description">
+                    A comprehensive digital platform for managing library operations, 
+                    categorizing books by academic year, and providing seamless access 
+                    to educational resources for students and staff.
+                </p>
+                <div class="hero-buttons">
+                    <a class="btn btn-primary btn-large" href="#books">Explore Books</a>
+                    <a class="btn btn-outline btn-large" href="#about">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search" class="search-section">
+        <div class="container">
+            <h2 class="section-title">Search Books</h2>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by title, author, or subject...">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <select id="yearFilter">
+                        <option value="">All Years</option>
+                        <option value="1st-year">1st Year</option>
+                        <option value="2nd-year">2nd Year</option>
+                        <option value="3rd-year">3rd Year</option>
+                        <option value="4th-year">4th Year</option>
+                    </select>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="textbook">Textbook</option>
+                        <option value="reference">Reference</option>
+                        <option value="magazine">Magazine</option>
+                        <option value="journal">Journal</option>
+                        <option value="competitive">Competitive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Search results will be displayed here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <a class="feature-card" href="/advanced-search">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Advanced Search</h3>
+                    <p>Search books by title, author, subject, or year with intelligent filtering options.</p>
+                </a>
+                <a class="feature-card" href="/year-categories">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Year-wise Categories</h3>
+                    <p>Books organized by 1st, 2nd, 3rd, and 4th year for easy syllabus-based access.</p>
+                </a>
+                <a class="feature-card" href="/reservation-system">
+                    <div class="feature-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <h3>Reservation System</h3>
+                    <p>Reserve books online and get notified when they become available.</p>
+                </a>
+                <a class="feature-card" href="/secure-access">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Secure Access</h3>
+                    <p>Role-based access for admins, librarians, and students with secure authentication.</p>
+                </a>
+                <a class="feature-card" href="/digital-records">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Digital Records</h3>
+                    <p>Maintain accurate digital records of all library operations and transactions.</p>
+                </a>
+                <a class="feature-card" href="/due-date-tracking">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Due Date Tracking</h3>
+                    <p>Automatic tracking of due dates and fine calculations for overdue books.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Categories Section -->
+    <section id="books" class="book-categories">
+        <div class="container">
+            <h2 class="section-title">Book Categories</h2>
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="all">All Books</button>
+                <button class="tab-btn" data-category="1st-year">1st Year</button>
+                <button class="tab-btn" data-category="2nd-year">2nd Year</button>
+                <button class="tab-btn" data-category="3rd-year">3rd Year</button>
+                <button class="tab-btn" data-category="4th-year">4th Year</button>
+                <button class="tab-btn" data-category="general">General</button>
+                <button class="tab-btn" data-category="reference">Reference</button>
+                <button class="tab-btn" data-category="magazines">Magazines</button>
+                <button class="tab-btn" data-category="competitive">Competitive</button>
+            </div>
+            <div class="books-grid" id="booksGrid">
+                <!-- Books will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Our Library System</h2>
+                    <p>
+                        The College Library Management System is designed to revolutionize how educational 
+                        institutions manage their library resources. Our platform provides a comprehensive 
+                        solution for organizing, searching, and managing books across different academic years 
+                        and categories.
+                    </p>
+                    <p>
+                        With features like online reservations, automated due date tracking, and role-based 
+                        access control, we ensure that both students and staff have a seamless experience 
+                        while maintaining accurate digital records of all library operations.
+                    </p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>1000+</h3>
+                            <p>Books Available</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Active Students</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Departments</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24/7</h3>
+                            <p>Online Access</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm" method="post" action="/login">
+                <div class="form-group">
+                    <label for="loginEmail">Username or Email</label>
+                    <input type="text" id="loginEmail" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="userType">User Type</label>
+                    <select id="userType" required>
+                        <option value="">Select User Type</option>
+                        <option value="student">Student</option>
+                        <option value="librarian">Librarian</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm" method="post" action="/register">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="regUserType">User Type</label>
+                    <select id="regUserType" required>
+                        <option value="">Select User Type</option>
+                        <option value="student">Student</option>
+                        <option value="librarian">Librarian</option>
+                    </select>
+                </div>
+                <div class="form-group" id="studentIdGroup" style="display: none;">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId">
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" name="username" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="admin-header">
+            <h2>Admin Panel</h2>
+            <button id="logoutBtn" class="btn btn-outline">Logout</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="books">Manage Books</button>
+                <button class="admin-tab" data-tab="users">Manage Users</button>
+                <button class="admin-tab" data-tab="transactions">Transactions</button>
+            </div>
+            <div class="admin-tab-content">
+                <div id="books-tab" class="tab-pane active">
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" id="addBookBtn">Add New Book</button>
+                    </div>
+                    <div class="admin-table">
+                        <table id="booksTable">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Year</th>
+                                    <th>Available</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="booksTableBody">
+                                <!-- Books will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="users-tab" class="tab-pane">
+                    <div class="admin-table">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Student ID</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="transactions-tab" class="tab-pane">
+                    <div class="admin-table">
+                        <table id="transactionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>User</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Fine</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTableBody">
+                                <!-- Transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Book</h2>
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label for="bookTitle">Book Title</label>
+                    <input type="text" id="bookTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor">Author</label>
+                    <input type="text" id="bookAuthor" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookIsbn">ISBN</label>
+                    <input type="text" id="bookIsbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookCategory">Category</label>
+                    <select id="bookCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="textbook">Textbook</option>
+                        <option value="reference">Reference</option>
+                        <option value="magazine">Magazine</option>
+                        <option value="journal">Journal</option>
+                        <option value="competitive">Competitive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookYear">Academic Year</label>
+                    <select id="bookYear" required>
+                        <option value="">Select Year</option>
+                        <option value="1st-year">1st Year</option>
+                        <option value="2nd-year">2nd Year</option>
+                        <option value="3rd-year">3rd Year</option>
+                        <option value="4th-year">4th Year</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookSubject">Subject</label>
+                    <input type="text" id="bookSubject" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookCopies">Number of Copies</label>
+                    <input type="number" id="bookCopies" min="1" value="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Add Book</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>College Library</h3>
+                    <p>Your gateway to knowledge and academic excellence.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#books">Books</a></li>
+                        <li><a href="#search">Search</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: library@college.edu</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 College Library Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>
+

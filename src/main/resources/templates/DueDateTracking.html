@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Due Date Tracking • College Library</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    .feature-page-header{padding:120px 0 40px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center}
+    .feature-page-header h1{font-size:2.5rem;margin-bottom:10px}
+    .page-container{max-width:1000px;margin:0 auto;padding:40px 20px}
+    .breadcrumb{margin-bottom:20px;color:#64748b}
+    .breadcrumb a{color:#2563eb;text-decoration:none}
+    </style>
+    <script defer src="/script.js"></script>
+  </head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><i class="fas fa-book"></i><span>College Library</span></div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#search" class="nav-link">Search</a>
+                <a href="index.html#books" class="nav-link">Books</a>
+                <a href="index.html#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </div>
+    </nav>
+    <header class="feature-page-header">
+        <div class="container">
+            <h1><i class="fas fa-clock"></i> Due Date Tracking</h1>
+            <p>Automatic due dates and fines for overdue items.</p>
+        </div>
+    </header>
+    <main class="page-container">
+        <div class="breadcrumb"><a href="index.html">Home</a> / Due Date Tracking</div>
+        <section class="book-categories">
+            <div class="container">
+                <div class="admin-table">
+                    <table>
+                        <thead><tr><th>Book Title</th><th>User</th><th>Issue Date</th><th>Due Date</th><th>Status</th><th>Fine</th></tr></thead>
+                        <tbody id="transactionsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+

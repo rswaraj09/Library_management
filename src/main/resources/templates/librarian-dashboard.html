@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librarian Dashboard - College Library</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-book"></i>
+                <span>College Library - Student Dashboard</span>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-user">
+                    <div class="user-info">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="username" th:text="${username}">Librarian</span>
+                    </div>
+                    <a href="/logout" class="btn btn-outline btn-sm">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1 class="welcome-title">Welcome, <span th:text="${username}">Librarian</span>!</h1>
+                <p class="welcome-subtitle">Manage your library's book collection with ease</p>
+            </section>
+
+            <!-- Book Management Section -->
+            <section class="book-management">
+                <div class="section-header">
+                    <h2 class="section-title">Book Management</h2>
+                    <button class="btn btn-primary" id="addBookBtn">
+                        <i class="fas fa-plus"></i> Add New Book
+                    </button>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="category-tabs">
+                    <button class="tab-btn active" data-category="all">All Books</button>
+                    <button class="tab-btn" data-category="1st-year">1st Year</button>
+                    <button class="tab-btn" data-category="2nd-year">2nd Year</button>
+                    <button class="tab-btn" data-category="3rd-year">3rd Year</button>
+                    <button class="tab-btn" data-category="4th-year">4th Year</button>
+                    <button class="tab-btn" data-category="general">General</button>
+                    <button class="tab-btn" data-category="reference">Reference</button>
+                    <button class="tab-btn" data-category="magazines">Magazines</button>
+                    <button class="tab-btn" data-category="competitive">Competitive</button>
+                </div>
+
+                <!-- Books Grid -->
+                <div class="books-grid" id="booksGrid">
+                    <!-- Books will be dynamically loaded here -->
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <h2 class="section-title">Library Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalBooks">0</h3>
+                            <p>Total Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="availableBooks">0</h3>
+                            <p>Available Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="categories">0</h3>
+                            <p>Categories</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Book</h2>
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label for="bookTitle">Book Title</label>
+                    <input type="text" id="bookTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor">Author</label>
+                    <input type="text" id="bookAuthor" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookIsbn">ISBN</label>
+                    <input type="text" id="bookIsbn" name="isbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookCategory">Category</label>
+                    <select id="bookCategory" name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="textbook">Textbook</option>
+                        <option value="reference">Reference</option>
+                        <option value="magazine">Magazine</option>
+                        <option value="journal">Journal</option>
+                        <option value="competitive">Competitive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookYear">Academic Year</label>
+                    <select id="bookYear" name="academicYear" required>
+                        <option value="">Select Year</option>
+                        <option value="1st-year">1st Year</option>
+                        <option value="2nd-year">2nd Year</option>
+                        <option value="3rd-year">3rd Year</option>
+                        <option value="4th-year">4th Year</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookSubject">Subject</label>
+                    <input type="text" id="bookSubject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookPublishedYear">Published Year</label>
+                    <input type="number" id="bookPublishedYear" name="publishedYear" min="1900" max="2025" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookCopies">Number of Copies</label>
+                    <input type="number" id="bookCopies" name="copiesTotal" min="1" value="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Add Book</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Book Modal -->
+    <div id="editBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Book</h2>
+            <form id="editBookForm">
+                <input type="hidden" id="editBookId" name="id">
+                <div class="form-group">
+                    <label for="editBookTitle">Book Title</label>
+                    <input type="text" id="editBookTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBookAuthor">Author</label>
+                    <input type="text" id="editBookAuthor" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBookIsbn">ISBN</label>
+                    <input type="text" id="editBookIsbn" name="isbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBookCategory">Category</label>
+                    <select id="editBookCategory" name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="textbook">Textbook</option>
+                        <option value="reference">Reference</option>
+                        <option value="magazine">Magazine</option>
+                        <option value="journal">Journal</option>
+                        <option value="competitive">Competitive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editBookYear">Academic Year</label>
+                    <select id="editBookYear" name="academicYear" required>
+                        <option value="">Select Year</option>
+                        <option value="1st-year">1st Year</option>
+                        <option value="2nd-year">2nd Year</option>
+                        <option value="3rd-year">3rd Year</option>
+                        <option value="4th-year">4th Year</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editBookSubject">Subject</label>
+                    <input type="text" id="editBookSubject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBookPublishedYear">Published Year</label>
+                    <input type="number" id="editBookPublishedYear" name="publishedYear" min="1900" max="2025" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBookCopies">Number of Copies</label>
+                    <input type="number" id="editBookCopies" name="copiesTotal" min="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Update Book</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+    <script>
+        // Librarian-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBooks();
+            updateStatistics();
+        });
+
+        // Load books function
+        function loadBooks(category = 'all') {
+            let url = '/books';
+            if (category !== 'all') {
+                url = `/books/category/${category}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(books => {
+                    displayBooks(books);
+                    updateStatistics(books);
+                })
+                .catch(error => {
+                    console.error('Error loading books:', error);
+                    document.getElementById('booksGrid').innerHTML = '<p>Error loading books. Please try again.</p>';
+                });
+        }
+
+        // Display books in grid
+        function displayBooks(books) {
+            const booksGrid = document.getElementById('booksGrid');
+            if (books.length === 0) {
+                booksGrid.innerHTML = '<p>No books found in this category.</p>';
+                return;
+            }
+
+            booksGrid.innerHTML = books.map(book => `
+                <div class="book-card">
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">by ${book.author}</div>
+                    <div class="book-meta">
+                        <span class="book-year">${book.publishedYear || 'N/A'}</span>
+                        <span class="book-copies">${book.copiesAvailable}/${book.copiesTotal} available</span>
+                    </div>
+                    <div class="book-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="viewBook(${book.id})">View</button>
+                        <button class="btn btn-outline btn-sm" onclick="editBook(${book.id})">Edit</button>
+                        <button class="btn btn-outline btn-sm" onclick="deleteBook(${book.id})" style="color: #ef4444;">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update statistics
+        function updateStatistics(books = null) {
+            if (books) {
+                document.getElementById('totalBooks').textContent = books.length;
+                const available = books.reduce((sum, book) => sum + book.copiesAvailable, 0);
+                document.getElementById('availableBooks').textContent = available;
+                
+                const categories = new Set(books.map(book => book.category));
+                document.getElementById('categories').textContent = categories.size;
+            }
+        }
+
+        // Global functions for book actions
+        window.viewBook = function(id) {
+            alert('View book functionality - Book ID: ' + id);
+        };
+
+        window.editBook = function(id) {
+            // Fetch book details and populate edit form
+            fetch(`/books/${id}`)
+                .then(response => response.json())
+                .then(book => {
+                    document.getElementById('editBookId').value = book.id;
+                    document.getElementById('editBookTitle').value = book.title;
+                    document.getElementById('editBookAuthor').value = book.author;
+                    document.getElementById('editBookIsbn').value = book.isbn;
+                    document.getElementById('editBookCategory').value = book.category;
+                    document.getElementById('editBookYear').value = book.academicYear;
+                    document.getElementById('editBookSubject').value = book.subject;
+                    document.getElementById('editBookPublishedYear').value = book.publishedYear;
+                    document.getElementById('editBookCopies').value = book.copiesTotal;
+                    
+                    document.getElementById('editBookModal').classList.add('open');
+                })
+                .catch(error => {
+                    console.error('Error fetching book:', error);
+                    alert('Error loading book details');
+                });
+        };
+
+        window.deleteBook = function(id) {
+            if (confirm('Are you sure you want to delete this book?')) {
+                fetch(`/books/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Book deleted successfully!');
+                        loadBooks(); // Reload books
+                    } else {
+                        alert('Error deleting book. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting book. Please try again.');
+                });
+            }
+        };
+
+        // Handle category tab clicks
+        document.querySelectorAll('.tab-btn').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                const category = this.getAttribute('data-category');
+                loadBooks(category);
+            });
+        });
+    </script>
+</body>
+</html>
+
+

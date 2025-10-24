@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search • College Library</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    .feature-page-header{padding:120px 0 40px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center}
+    .feature-page-header h1{font-size:2.5rem;margin-bottom:10px}
+    .feature-page-header p{opacity:.9}
+    .page-container{max-width:1000px;margin:0 auto;padding:40px 20px}
+    .breadcrumb{margin-bottom:20px;color:#64748b}
+    .breadcrumb a{color:#2563eb;text-decoration:none}
+    </style>
+    <script defer src="/script.js"></script>
+    <script>document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('nav .nav-link').forEach(a=>a.classList.remove('active'));});</script>
+  </head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><i class="fas fa-book"></i><span>College Library</span></div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#search" class="nav-link">Search</a>
+                <a href="index.html#books" class="nav-link">Books</a>
+                <a href="index.html#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </div>
+    </nav>
+    <header class="feature-page-header">
+        <div class="container">
+            <h1><i class="fas fa-search"></i> Advanced Search</h1>
+            <p>Search by multiple fields with filters and suggestions.</p>
+        </div>
+    </header>
+    <main class="page-container">
+        <div class="breadcrumb"><a href="index.html">Home</a> / Advanced Search</div>
+        <section class="search-section">
+            <div class="container">
+                <h2 class="section-title">Try it out</h2>
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by title, author, or subject...">
+                        <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="search-filters">
+                        <select id="yearFilter">
+                            <option value="">All Years</option>
+                            <option value="1st-year">1st Year</option>
+                            <option value="2nd-year">2nd Year</option>
+                            <option value="3rd-year">3rd Year</option>
+                            <option value="4th-year">4th Year</option>
+                        </select>
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="textbook">Textbook</option>
+                            <option value="reference">Reference</option>
+                            <option value="magazine">Magazine</option>
+                            <option value="journal">Journal</option>
+                            <option value="competitive">Competitive</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+

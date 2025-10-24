@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Authentication</title>
+</head>
+<body>
+    <h1>Authentication Debug</h1>
+    <p><strong>Is Authenticated:</strong> <span th:text="${isAuthenticated}">false</span></p>
+    <p><strong>Principal:</strong> <span th:text="${principal}">null</span></p>
+    <p><strong>Authorities:</strong> <span th:text="${authorities}">null</span></p>
+    <p><strong>Full Auth Object:</strong> <span th:text="${auth}">null</span></p>
+    
+    <h2>Test Login</h2>
+    <form method="post" action="/login">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="testuser">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="testpass">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>
+
+

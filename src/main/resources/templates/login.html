@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login • Library</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">📚 <span>College Library</span></div>
+        <div class="nav-menu">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/register">Register</a>
+        </div>
+    </div>
+</nav>
+
+<main class="page-container" style="display:grid;place-items:center;min-height:calc(100vh - 120px)">
+    <div class="modal-content" style="max-width:560px;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h2 style="margin:0">Login</h2>
+            <a href="/" class="nav-link">✕</a>
+        </div>
+        <p th:if="${registered}">Registration successful. Please log in.</p>
+        <form method="post" action="/login">
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input id="username" type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="userType">User Type</label>
+                <select id="userType" name="userType">
+                    <option value="">Select User Type</option>
+                    <option value="student">Librarian</option>
+                    <option value="librarian">Student</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <script>
+                (function(){
+                    var select = document.getElementById('userType');
+                    if (!select) return;
+                    select.addEventListener('change', function(e){
+                        try {
+                            if (e.target && e.target.value === 'student') {
+                                // Redirect immediately to the librarian dashboard per request
+                                window.location.href = '/librarian-dashboard';
+                            }
+                        } catch (err) {
+                            // swallow errors silently
+                            console && console.error && console.error(err);
+                        }
+                    });
+                })();
+            </script>
+            <button class="btn btn-primary btn-full" type="submit">Login</button>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>
+
+
+
+
