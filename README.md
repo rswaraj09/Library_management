@@ -83,20 +83,7 @@ A modern web-based library management system designed for colleges and education
    http://localhost:8080
    ```
 
-### Default Credentials
-```
-Administrator:
-- Username: admin
-- Password: password123
 
-Librarian:
-- Username: librarian1
-- Password: password123
-
-Student:
-- Username: student1
-- Password: password123
-```
 
 ## Project Structure
 
